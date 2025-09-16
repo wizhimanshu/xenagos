@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+
+<div class="container safety-hub-page">
+
+    <div class="page-header card">
+        <h1>Safety & Security Hub 🛡️</h1>
+        <p>Your central resource for staying safe during your travels.</p>
+    </div>
+
+    <div class="safety-hub-grid">
+        <div class="card climate-card">
+            <h3>🌡️ Live Climate Status (<%= locationName %>)</h3>
+            <% if (weather) { %>
+                <div class="weather-info">
+                    <img src="http://openweathermap.org/img/wn/<%= weather.weather[0].icon %>@2x.png" alt="Weather icon">
+                    <div class="weather-details">
+                        <span class="temp"><%= Math.round(weather.main.temp) %>°C</span>
+                        <span class="desc"><%= weather.weather[0].description %></span>
+                    </div>
+                </div>
+            <% } else { %>
+                <p>Live weather data is currently unavailable for this location.</p>
+            <% } %>
+        </div>
+
+        <div class="card crime-card">
+            <h3>📊 Regional Crime Advisory</h3>
+            <p><strong>Current Status:</strong> Low to Moderate</p>
+            <p>Always exercise caution. Avoid unlit areas at night and be mindful of your belongings in tourist spots and public transport.</p>
+        </div>
+
+        <div class="card emergency-card">
+            <h3>🚨 Emergency Rescue</h3>
+            <p>In a critical situation? Press the button below to immediately and silently notify authorities with your live location.</p>
+            <button class="btn rescue-btn">Send Rescue Alert</button>
+        </div>
+
+        <div class="card help-card">
+            <h3>🤝 Nearby Help & Helplines</h3>
+            <ul class="helplines-list">
+                <li><strong>National Emergency Number:</strong> 112</li>
+                <li><strong>Police:</strong> 100</li>
+                <li><strong>Tourist Helpline:</strong> 1363</li>
+            </ul>
+            <div class="button-group">
+                 <a href="https://www.google.com/maps/search/?api=1&query=Police+Stations+near+<%= encodeURIComponent(locationName) %>" target="_blank" class="btn btn-primary">Find Police Stations</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=Hospitals+near+<%= encodeURIComponent(locationName) %>" target="_blank" class="btn btn-secondary">Find Hospitals</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

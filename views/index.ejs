@@ -1,17 +1,36 @@
 <%- include('partials/header') %>
 
 <div class="container">
+
+    <section class="search-section card">
+        <h1>Where are you travelling today?</h1>
+        <p>Enter a destination to get real-time safety info, routes, and more.</p>
+        <form action="/search" method="POST" class="search-form">
+            <input type="text" name="location" placeholder="e.g., Goa or Delhi" required>
+            <button class="btn" type="submit">Search</button>
+        </form>
+    </section>
+
+    <% if (!locals.locationData) { %>
+        <section class="suggestions-section card">
+            <h2>Underrated Places to Discover</h2>
+            <div class="suggestions-grid" id="suggestions-grid-container">
+                <p class="loading-message">Loading amazing places...</p>
+            </div>
+        </section>
+    <% } %>
+
     <% if (locals.locationData && !locationData.error) { %>
         
         <section class="hero-slideshow-section">
-            </section>
+            <div id="slideshow-container" data-images="<%= JSON.stringify(locationData.slideshowImages) %>"></div>
+        </section>
 
         <div class="results-grid">
-            
             <div class="left-column">
                 <div class="map-container card">
                     <h3><%= locationData.name %> on Map</h3>
-                    <a href="https://maps.google.com/?q=<%= encodeURIComponent(locationData.name) %>" target="_blank" title="Click to open in Google Maps">
+                    <a href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(locationData.name) %>" target="_blank" title="Click to open in Google Maps">
                         <div id="map" data-coords="<%= JSON.stringify(locationData.coords) %>"></div>
                     </a>
                     <button class="btn btn-secondary add-tracker-btn" data-location-name="<%= locationData.name %>" data-cover-image="<%= locationData.coverImage %>" data-coords="<%= JSON.stringify(locationData.coords) %>">
@@ -21,19 +40,32 @@
 
                 <div class="card hotels-card">
                     <h3>🏨 Nearby Hotels</h3>
-                    <% if (locationData.nearbyHotels && locationData.nearbyHotels.length > 0) { %>
-                        <ul class="hotels-list">
-                            <% locationData.nearbyHotels.forEach(hotelName => { %>
-                                <li><%= hotelName %></li>
-                            <% }) %>
-                        </ul>
-                    <% } else { %>
-                        <p>Could not find hotels nearby.</p>
-                    <% } %>
+                    <p>Find the best places to stay near your destination.</p>
+                    <div class="button-group">
+                         <a href="https://maps.google.com/?q=0<%= encodeURIComponent(locationData.name) %>" target="_blank" class="btn btn-primary">Find Nearby Hotels</a>
+                    </div>
                 </div>
             </div>
 
             <div class="info-container">
+                <div class="card">
+                    <h3>How to Go</h3>
+                    <p><%= locationData.routesInfo %></p>
+                    <div class="button-group">
+                        <a href="<%= locationData.bookingLink %>" target="_blank" class="btn btn-primary">Book Your Trip</a>
+                        <a href="<%= locationData.flightLink %>" target="_blank" class="btn btn-secondary">Book a Flight</a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Images of <%= locationData.name %></h3>
+                    <div class="image-gallery">
+                        <% locationData.apiImages.forEach(imgUrl => { %>
+                            <img src="<%= imgUrl %>" alt="Image of <%= locationData.name %>">
+                        <% }) %>
+                    </div>
+                </div>
+
                 <div class="card">
                     <h3>Videos of <%= locationData.name %></h3>
                     <p>Explore your destination through the eyes of fellow travelers.</p>
@@ -44,8 +76,35 @@
             </div>
         </div>
 
-        <% } else if (locals.locationData && locationData.error) { %>
-        <% } %>
+        <section class="safety-hub-section">
+            <h2>Safety & Security Hub</h2>
+            <div class="safety-grid">
+                <div class="card emergency-card">
+                    <h3>Emergency & Incident Reporting</h3>
+                    <p>In a critical situation? Press the rescue button to immediately and silently notify authorities with your live location.</p>
+                    <button class="btn rescue-btn">🚨 Send Rescue Alert</button>
+                </div>
+                <div class="card advisory-card">
+                    <h3>Government Advisory & Threat Prevention</h3>
+                    <p>Our system uses AI to analyze patterns for threat prevention, like unusual crowd formations or deviations from normal activity, sharing data with authorities in real-time. Standard precautions are advised. Monitor local news for updates.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="discover-section card">
+            <h2>Discovered a New Gem?</h2>
+            <p>Help fellow travelers by submitting new and beautiful places you've found!</p>
+            <form id="discovery-form">
+                <input type="text" placeholder="Name of the Place" required>
+                <textarea rows="3" placeholder="Briefly describe what makes it special..." required></textarea>
+                <input type="file" accept="image/*" required>
+                <button type="submit" class="btn btn-primary">Submit Discovery</button>
+            </form>
+        </section>
+
+    <% } else if (locals.locationData && locationData.error) { %>
+        <div class="error-message main-error"><%= locationData.error %></div>
+    <% } %>
 
 </div>
 

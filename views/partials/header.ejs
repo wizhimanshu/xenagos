@@ -12,22 +12,24 @@
     <header>
         <nav>
             <a href="/" class="logo">
-                <!-- <img src="/images/logo.png" alt="SmartTourist Logo" class="logo-img"> -->
                 <span class="logo-text">Xenagos</span>
             </a>
             
             <% if (isLoggedIn) { %>
                 <div class="nav-user">
                     <span>Welcome, <%= user.username %></span>
-                    <a href="/journey" class="btn-nav-link">My Journey So Far</a>
+                    <button class="btn btn-outline" id="connect-wallet-btn">Connect Wallet</button>
+                    <a href="/journey" class="btn-nav-link">My Journey So Far</a> 
+                    <a href="/safety-hub" class="btn-nav-link">Safety Hub</a>
                     <a href="/logout" class="btn btn-secondary">Logout</a>
                 </div>
             <% } else { %>
                 <div class="nav-guest">
-                    <a href="/login" class="btn btn-primary">Login</a>
+                    <a href="/login" class="btn btn-outline">Login</a>
                     <a href="/signup" class="btn btn-secondary">Sign Up</a>
                 </div>
             <% } %>
+            
         </nav>
     </header>
     <main>

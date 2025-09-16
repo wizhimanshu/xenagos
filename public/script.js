@@ -1,21 +1,65 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- FEATURE: HERO SLIDESHOW ---
+    // --- Blockchain Simulation ---
+    const fakeWallet = {
+        isConnected: false,
+        address: '0x1A2b...c3D4' // A sample wallet address
+    };
+
+    const connectWalletBtn = document.getElementById('connect-wallet-btn');
+    if (connectWalletBtn) {
+        connectWalletBtn.addEventListener('click', () => {
+            if (!fakeWallet.isConnected) {
+                if (confirm("Simulating Wallet Connection:\n\nDo you want to connect your digital wallet?")) {
+                    fakeWallet.isConnected = true;
+                    connectWalletBtn.textContent = `✅ Connected: ${fakeWallet.address}`;
+                    connectWalletBtn.disabled = true;
+                    connectWalletBtn.style.cursor = 'default';
+                }
+            }
+        });
+    }
+
+    // --- Asynchronously load underrated places ---
+    const suggestionsContainer = document.getElementById('suggestions-grid-container');
+    if (suggestionsContainer) {
+        suggestionsContainer.innerHTML = `<p class="loading-message">Loading amazing places...</p>`;
+        fetch('/api/underrated-places')
+            .then(response => response.json())
+            .then(places => {
+                suggestionsContainer.innerHTML = '';
+                places.forEach(place => {
+                    const card = document.createElement('div');
+                    card.className = 'suggestion-card';
+                    card.innerHTML = `
+                        <img src="${place.image}" alt="${place.name}">
+                        <div class="suggestion-content">
+                            <h3>${place.name}</h3>
+                            <p>${place.description}</p>
+                        </div>
+                    `;
+                    suggestionsContainer.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Failed to load suggestions:', error);
+                suggestionsContainer.innerHTML = `<p class="error-message">Could not load suggestions at this time.</p>`;
+            });
+    }
+
+    // --- Hero Slideshow ---
     const slideshowContainer = document.getElementById('slideshow-container');
     if (slideshowContainer) {
         try {
             const images = JSON.parse(slideshowContainer.dataset.images);
             let currentIndex = 0;
-            
             const showImage = () => {
                 if (images.length > 0) {
                     slideshowContainer.innerHTML = `<img src="${images[currentIndex]}" alt="Beautiful destination slideshow">`;
-                    const imgElement = slideshowContainer.querySelector('img');
-                    imgElement.classList.add('fade-in');
+                    slideshowContainer.querySelector('img').classList.add('fade-in');
                     currentIndex = (currentIndex + 1) % images.length;
                 }
             };
-
             if (images && images.length > 0) {
                 showImage();
                 setInterval(showImage, 5000);
@@ -23,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch(e) { console.error("Error initializing slideshow:", e)}
     }
 
-    // --- FEATURE: MAP INITIALIZATION ---
+    // --- Map Initialization ---
     const mapDiv = document.getElementById('map');
     if (mapDiv) {
         try {
@@ -36,40 +80,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- FEATURE: "ADD TO MY TRACKER" ---
+    // --- "Add to My Tracker" (with Blockchain Simulation) ---
     const addTrackerBtn = document.querySelector('.add-tracker-btn');
     if (addTrackerBtn) {
         addTrackerBtn.addEventListener('click', (e) => {
+            if (!fakeWallet.isConnected) {
+                alert("Please connect your digital wallet first to save to your secure log.");
+                return;
+            }
+            
             const button = e.currentTarget;
-            const visit = {
-                name: button.dataset.locationName,
-                coverImage: button.dataset.coverImage,
-                coords: JSON.parse(button.dataset.coords),
-                date: new Date().toLocaleDateString()
-            };
-
-            let visitedPlaces = JSON.parse(localStorage.getItem('visitedPlaces')) || [];
-            if (!visitedPlaces.some(p => p.name === visit.name)) {
-                visitedPlaces.push(visit);
-                localStorage.setItem('visitedPlaces', JSON.stringify(visitedPlaces));
-                alert(`${visit.name} has been added to your journey!`);
+            const locationName = button.dataset.locationName;
+            
+            if (confirm(`Simulating Blockchain Transaction:\n\nSign transaction to add "${locationName}" to your secure travel log?`)) {
+                console.log(`Transaction approved. Adding "${locationName}" to travel history...`);
+                const visit = {
+                    name: locationName,
+                    coverImage: button.dataset.coverImage,
+                    coords: JSON.parse(button.dataset.coords),
+                    date: new Date().toLocaleDateString()
+                };
+                let visitedPlaces = JSON.parse(localStorage.getItem('visitedPlaces')) || [];
+                if (!visitedPlaces.some(p => p.name === visit.name)) {
+                    visitedPlaces.push(visit);
+                    localStorage.setItem('visitedPlaces', JSON.stringify(visitedPlaces));
+                    alert(`${visit.name} has been securely added to your journey!`);
+                } else {
+                    alert(`${visit.name} is already in your journey tracker.`);
+                }
             } else {
-                alert(`${visit.name} is already in your journey tracker.`);
+                console.log("User rejected the transaction.");
             }
         });
     }
 
-    // --- FEATURE: "MY JOURNEY SO FAR" PAGE ---
+    // --- "My Journey So Far" Page ---
     const journeyList = document.getElementById('journey-list');
     if (journeyList) {
         const renderJourneyList = () => {
             const visitedPlaces = JSON.parse(localStorage.getItem('visitedPlaces')) || [];
             journeyList.innerHTML = '';
-
             if (visitedPlaces.length > 0) {
                 visitedPlaces.forEach(place => {
                     const card = document.createElement('div');
-                    card.className = 'journey-card';
+                    card.className = 'journey-card card'; // Added .card for consistent styling
                     card.innerHTML = `
                         <img src="${place.coverImage}" alt="${place.name}">
                         <div class="journey-content">
@@ -83,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 journeyList.innerHTML = `<p class="no-places-message">You haven't tracked any places yet.</p>`;
             }
-
             document.querySelectorAll('.btn-delete').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const placeNameToDelete = e.currentTarget.dataset.placeName;
@@ -99,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderJourneyList();
     }
 
-    // --- FEATURE: RESCUE BUTTON ---
+    // --- Rescue Button ---
     const rescueBtn = document.querySelector('.rescue-btn');
     if (rescueBtn) {
         rescueBtn.addEventListener('click', () => {
@@ -116,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- FEATURE: SUBMIT DISCOVERY FORM ---
+    // --- Submit Discovery Form ---
     const discoveryForm = document.getElementById('discovery-form');
     if (discoveryForm) {
         discoveryForm.addEventListener('submit', (e) => {
