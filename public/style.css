@@ -194,6 +194,49 @@ nav { display: flex; justify-content: space-between; align-items: center; max-wi
 /* 8. Footer & Responsive */
 footer { text-align: center; padding: 40px; background: var(--primary-blue); color: var(--text-light); margin-top: 80px; }
 
+/* ADD THESE STYLES TO THE END OF public/style.css */
+
+/* New Layout for Results Grid */
+.results-grid {
+    align-items: flex-start; /* Ensure columns align at the top */
+}
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Space between map and hotels card */
+    position: sticky;
+    top: 90px;
+}
+
+/* Nearby Hotels Card */
+.hotels-card h3 {
+    margin-bottom: 20px;
+}
+.hotels-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+.hotels-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-weight: 500;
+}
+.hotels-list li:last-child {
+    border-bottom: none;
+}
+.hotels-list li::before {
+    content: "🏨";
+    margin-right: 12px;
+}
+
+/* Video Button */
+.video-btn {
+    display: block; /* Make the button full-width */
+    margin-top: 20px;
+    text-align: center;
+}
+
 @media (max-width: 992px) {
     .results-grid, .safety-grid { grid-template-columns: 1fr; }
     .map-container { position: static; }
