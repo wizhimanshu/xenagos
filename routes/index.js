@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const mockData = require('../mock-data'); // We'll create this file
+const mockData = require('../mock-data');
 
-// Middleware to protect routes that require login
 const isAuth = (req, res, next) => {
     if (!req.session.isLoggedIn) {
         return res.redirect('/login');
@@ -11,23 +10,34 @@ const isAuth = (req, res, next) => {
 };
 
 // GET / (Main Page)
-router.get('/', isAuth, (req, res) => {
-    // Render the page without location data initially
-    res.render('index', { locationData: null });
+router.get('/', (req, res) => {
+    res.render('index', { 
+        locationData: null, 
+        underratedPlaces: mockData.underratedPlaces 
+    });
 });
 
 // POST /search
 router.post('/search', isAuth, (req, res) => {
     const locationName = req.body.location.toLowerCase().trim();
-    const data = mockData[locationName];
+    const data = mockData.locations[locationName];
 
     if (data) {
-        res.render('index', { locationData: data });
+        res.render('index', { 
+            locationData: data, 
+            underratedPlaces: mockData.underratedPlaces
+        });
     } else {
         res.render('index', {
-            locationData: { error: `Sorry, we don't have information for "${locationName}". Please try 'Goa' or 'Delhi'.` }
+            locationData: { error: `Sorry, we don't have information for "${locationName}".` },
+            underratedPlaces: mockData.underratedPlaces
         });
     }
+});
+
+// GET /journey
+router.get('/journey', isAuth, (req, res) => {
+    res.render('journey'); 
 });
 
 module.exports = router;
