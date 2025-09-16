@@ -45,25 +45,26 @@ You need to have Node.js and npm installed on your computer.
 
 Installation & Setup
 Clone the repository:
-
+```
 git clone [https://github.com/your-username/xenagos.git](https://github.com/your-username/xenagos.git)
 cd xenagos
-
+```
 Install dependencies:
-
+```
 npm install
-
+```
 Add API Keys:
 This project requires API keys from Pexels and Geoapify. Open the routes/index.js file and replace the placeholder keys with your own:
 
+```
 // In routes/index.js
 const PEXELS_API_KEY = 'YOUR_PEXELS_API_KEY';
 const GEOAPIFY_API_KEY = 'YOUR_GEOAPIFY_API_KEY';
-
+```
 Run the server:
-
+```
 node server.js
-
+```
 Open your browser and navigate to http://localhost:3000.
 
 Usage
