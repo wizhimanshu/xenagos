@@ -36,26 +36,6 @@ Geoapify API: For geocoding, reverse geocoding, and finding nearby places (hotel
 
 Mapping: Leaflet.js with OpenStreetMap tiles.
 
-📁 Project Structure
-xenagos/
-├── public/
-│   ├── css/style.css       # Main stylesheet
-│   ├── js/script.js        # Frontend JavaScript for interactivity
-│   └── images/             # Static images and logo
-├── routes/
-│   ├── auth.js             # Handles all authentication routes (login, signup, logout)
-│   └── index.js            # Handles core application routes (search, home, journey)
-├── views/
-│   ├── partials/           # EJS partials (header, footer)
-│   ├── index.ejs           # Homepage and search results view
-│   ├── journey.ejs         # "My Journey So Far" page
-│   ├── login.ejs           # Login page
-│   └── signup.ejs          # Signup page
-├── mock-data.js            # Data for underrated place suggestions
-├── users.json              # File-based database for user credentials
-├── server.js               # The main Express server entry point
-├── package.json
-└── README.md
 
 🚀 Getting Started
 Follow these instructions to get a copy of the project up and running on your local machine.
