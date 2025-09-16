@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+
+<div class="auth-container">
+    <div class="auth-form-wrapper">
+        <h2>Create an Account</h2>
+        <p>Join to start your safe travel journey.</p>
+        <% if (locals.error) { %>
+            <div class="error-message"><%= error %></div>
+        <% } %>
+        <form action="/signup" method="POST">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+        <div class="auth-switch">
+            <p>Already have an account? <a href="/login">Login</a></p>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

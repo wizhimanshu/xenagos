@@ -1,0 +1,385 @@
+/* --- SmartTourist Theme: Tripo-inspired Blue & Yellow with Organic Elements --- */
+
+/* 1. Root Variables & Body Setup */
+:root {
+    --primary-blue: #2196F3; /* A bright, inviting blue */
+    --accent-yellow: #FFC107; /* A sunny, clear yellow */
+    --text-dark: #333333;     /* Dark text for good readability */
+    --text-light: #ffffff;    /* White text for contrast on dark backgrounds */
+    --card-bg-light: #ffffff; /* White background for main content cards */
+    --card-bg-dark: rgba(255, 255, 255, 0.9); /* Slightly transparent white for modals/popups */
+    --border-light: #e0e0e0;  /* Light gray for borders */
+    --shadow-strong: 0 8px 20px rgba(0, 0, 0, 0.15);
+    --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--primary-blue); /* Overall blue background */
+    color: var(--text-dark);
+    line-height: 1.7;
+    overflow-x: hidden;
+    position: relative; /* For diagonal effect */
+}
+
+/* Diagonal Background Effect */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/images/background.jpg') no-repeat center center fixed; /* Your background image */
+    background-size: cover;
+    opacity: 0.8; /* Adjust opacity if image is too strong */
+    z-index: -1; /* Keep it behind content */
+}
+
+/* 2. General & Reusable Classes */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 25px; /* Increased padding */
+}
+
+h1, h2, h3 {
+    color: var(--text-dark); /* Headings typically dark on white cards */
+    font-weight: 700;
+}
+h1 { font-size: 3rem; }
+h2 { font-size: 2.5rem; text-align: center; margin-bottom: 30px; }
+h3 { font-size: 1.8rem; margin-bottom: 20px; }
+
+.btn {
+    display: inline-block;
+    padding: 14px 32px; /* Larger buttons */
+    border-radius: 50px; /* Fully rounded */
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    letter-spacing: 0.5px;
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-primary {
+    background: var(--primary-blue);
+    color: var(--text-light);
+}
+.btn-primary:hover {
+    background: #1976D2; /* Darker blue on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(33, 150, 243, 0.3);
+}
+
+.btn-secondary {
+    background: var(--accent-yellow);
+    color: var(--text-dark);
+}
+.btn-secondary:hover {
+    background: #FFD54F; /* Lighter yellow on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 193, 7, 0.3);
+}
+
+.card {
+    background: var(--card-bg-light);
+    padding: 35px; /* More padding in cards */
+    border-radius: 15px;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-strong);
+}
+
+input, textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px;
+    margin-bottom: 20px; /* Increased margin */
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: #fdfdfd;
+    color: var(--text-dark);
+    font-family: 'Poppins', sans-serif;
+}
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+}
+
+/* 3. Header & Navigation */
+header {
+    background: rgba(var(--primary-blue), 0.9); /* Slight transparency */
+    backdrop-filter: blur(5px);
+    padding: 12px 5%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-soft);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo { display: flex; align-items: center; text-decoration: none; gap: 10px; }
+.logo-img { height: 40px; width: auto; } /* Slightly larger logo */
+.logo-text { font-size: 1.8rem; font-weight: 700; color: var(--text-light); } /* White text for logo */
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.nav-user span {
+    color: var(--text-light); /* White text for welcome message */
+    font-weight: 500;
+}
+.nav-user .btn-secondary {
+    padding: 8px 20px;
+    font-size: 0.95rem;
+    border-radius: 25px;
+}
+
+/* 4. Auth Pages (Login/Signup) - Major Redesign for Tripo style */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    background: none; /* Already handled by body::before */
+}
+/* No ::before for auth-container, using body::before for consistency */
+
+.auth-form-wrapper { /* This acts like the central white card for auth */
+    background: var(--card-bg-light);
+    width: 100%;
+    max-width: 450px; /* Wider card */
+    padding: 45px; /* More padding */
+    border-radius: 15px;
+    text-align: center;
+    z-index: 1;
+    color: var(--text-dark); /* Dark text on white card */
+    box-shadow: var(--shadow-strong);
+}
+.auth-form-wrapper h2 {
+    font-size: 2.8rem; /* Larger heading */
+    color: var(--primary-blue);
+    margin-bottom: 10px;
+}
+/* Yellow accent under the heading */
+.auth-form-wrapper h2::after {
+    content: '';
+    display: block;
+    width: 80px; /* Wider accent */
+    height: 5px;
+    background: var(--accent-yellow);
+    margin: 15px auto 0;
+    border-radius: 3px;
+}
+.auth-form-wrapper p {
+    margin-bottom: 35px;
+    color: #666;
+    font-size: 1.05rem;
+}
+.auth-form-wrapper input {
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    color: var(--text-dark);
+    padding: 14px;
+    border-radius: 8px;
+}
+.auth-form-wrapper input::placeholder {
+    color: #999;
+}
+.auth-form-wrapper input:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
+}
+.auth-form-wrapper .btn-primary {
+    width: 100%;
+    padding: 15px 30px; /* Larger login button */
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+.auth-switch {
+    margin-top: 25px;
+    font-size: 1.05rem;
+}
+.auth-switch a {
+    color: var(--primary-blue); /* Blue link */
+    font-weight: 600;
+    text-decoration: none;
+}
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #c62828;
+}
+
+/* 5. Index Page (Search First) */
+.search-section {
+    text-align: center;
+    padding: 100px 20px;
+    background: var(--card-bg-light);
+    border-radius: 15px;
+    box-shadow: var(--shadow-strong);
+    margin-top: 80px; /* Push it down from header */
+}
+.search-section h1 {
+    font-size: 3.2rem;
+    margin-bottom: 20px;
+    color: var(--primary-blue);
+}
+.search-section p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 40px;
+}
+.search-form {
+    display: flex;
+    max-width: 700px; /* Wider search bar */
+    margin: 0 auto;
+    border: 2px solid var(--border-light);
+    border-radius: 50px; /* Fully rounded search bar */
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+}
+.search-form input {
+    flex-grow: 1;
+    border: none;
+    padding: 16px 30px; /* Larger padding */
+    font-size: 1.2rem;
+    margin-bottom: 0;
+    background: #fff;
+    border-radius: 50px 0 0 50px;
+}
+.search-form .btn {
+    border-radius: 0 50px 50px 0; /* Match rounded search bar */
+    padding: 16px 35px; /* Match input padding */
+    font-size: 1.1rem;
+    background: var(--accent-yellow);
+    color: var(--text-dark);
+}
+.search-form .btn:hover { background: #FFD54F; }
+
+
+/* 6. Results Page Layout */
+.results-grid {
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    gap: 40px; /* Increased gap */
+    align-items: flex-start;
+    margin-top: 60px;
+}
+.map-container {
+    position: sticky;
+    top: 90px; /* Adjust sticky top for new header height */
+}
+#map {
+    height: 480px; /* Taller map */
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: var(--shadow-strong);
+}
+.add-tracker-btn {
+    width: 100%;
+    margin-top: 25px;
+    font-size: 1.1rem;
+}
+.info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.safety-list { list-style: none; padding: 0; }
+.safety-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.safety-list li:last-child { border-bottom: none; }
+.safety-list li::before {
+    content: '✅'; /* Checkmark icon */
+    font-size: 1.2em;
+}
+
+.image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+.image-gallery img { width: 100%; height: 110px; object-fit: cover; border-radius: 10px; box-shadow: var(--shadow-soft); transition: transform 0.2s ease; }
+.image-gallery img:hover { transform: scale(1.03); box-shadow: var(--shadow-strong); }
+
+.video-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.video-gallery img { width: 100%; border-radius: 10px; box-shadow: var(--shadow-soft); }
+.video-gallery a { text-decoration: none; color: var(--text-dark); }
+.video-gallery p { font-size: 0.95em; margin-top: 8px; font-weight: 600; }
+
+.placeholder-tech {
+    margin-top: 20px;
+    padding: 15px;
+    background: #e3f2fd; /* Light blue background */
+    border-left: 4px solid var(--primary-blue);
+    font-size: 0.95em;
+    border-radius: 10px;
+    color: var(--text-dark);
+}
+.incident-form textarea {
+    min-height: 100px;
+}
+.incident-form input[type="file"] {
+    border: none;
+    background: transparent;
+    padding-left: 0;
+    color: #666;
+}
+.incident-form .btn-primary {
+    margin-top: 10px;
+    width: auto; /* Don't force full width for report button */
+}
+
+/* 7. Footer */
+footer {
+    text-align: center;
+    padding: 40px;
+    background: var(--primary-blue);
+    color: var(--text-light);
+    margin-top: 80px;
+}
+
+/* 8. Responsive Design */
+@media (max-width: 992px) {
+    .results-grid { grid-template-columns: 1fr; }
+    .map-container { position: static; }
+    .search-section h1 { font-size: 2.5rem; }
+    .search-form input, .search-form .btn { padding: 14px 25px; font-size: 1rem; }
+    .auth-form-wrapper { max-width: 90%; }
+}
+@media (max-width: 768px) {
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 2rem; }
+    .auth-form-wrapper h2 { font-size: 2.2rem; }
+    .logo-text { font-size: 1.5rem; }
+    .btn { padding: 12px 25px; }
+    .search-section { padding: 60px 20px; }
+    .results-grid { margin-top: 40px; gap: 30px; }
+}

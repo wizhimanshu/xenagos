@@ -1,0 +1,88 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <section class="search-section">
+        <h1>Where are you travelling today?</h1>
+        <form action="/search" method="POST" class="search-form">
+            <input type="text" name="location" placeholder="Enter a city or destination (e.g., Goa)" required>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+    </section>
+
+    <%# This entire block only shows up AFTER a search is successful %>
+    <% if (locals.locationData) { %>
+        <% if (locationData.error) { %>
+            <div class="error-message main-error"><%= locationData.error %></div>
+        <% } else { %>
+            <div class="results-grid">
+                
+                <%# Left Column: Map %>
+                <div class="map-container card">
+                    <h3><%= locationData.name %> on Map</h3>
+                    <div id="map" data-coords="<%= JSON.stringify(locationData.coords) %>"></div>
+                    <button class="btn btn-secondary add-tracker-btn">Add to My Tracker</button>
+                </div>
+
+                <%# Right Column: All other info %>
+                <div class="info-container">
+
+                    <div class="card">
+                        <h3>Routes & How to Go</h3>
+                        <p><%= locationData.routesInfo %></p>
+                        <a href="<%= locationData.bookingLink %>" target="_blank" class="btn btn-primary">Book Your Trip</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Safety Checks</h3>
+                        <ul class="safety-list">
+                            <li><strong>Crime Rate:</strong> <%= locationData.safety.crimeRate %></li>
+                            <li><strong>Climate:</strong> <%= locationData.safety.climate %></li>
+                            <li><strong>Real-time Update:</strong> <a href="https://www.youtube.com/watch?v=<%= locationData.safety.realTimeVideo %>" target="_blank">Watch recent footage</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Images of <%= locationData.name %></h3>
+                        <div class="image-gallery">
+                            <% locationData.images.forEach(imgUrl => { %>
+                                <img src="<%= imgUrl %>" alt="<%= locationData.name %>">
+                            <% }) %>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Videos of <%= locationData.name %></h3>
+                        <div class="video-gallery">
+                             <% locationData.videos.forEach(video => { %>
+                                <a href="https://www.youtube.com/watch?v=<%= video.youtubeId %>" target="_blank">
+                                   <img src="https://img.youtube.com/vi/<%= video.youtubeId %>/0.jpg" alt="<%= video.title %>">
+                                   <p><%= video.title %></p>
+                                </a>
+                            <% }) %>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Emergency & Incident Reporting</h3>
+                        <p>In case of an emergency, use this form to alert authorities immediately.</p>
+                        <form id="incident-form">
+                            <textarea placeholder="Describe the situation... (e.g., suspicious activity at Colva Beach)" required></textarea>
+                            <input type="file" accept="video/*,image/*">
+                            <button type="submit" class="btn btn-primary">Send Alert</button>
+                        </form>
+                    </div>
+
+                     <div class="card">
+                        <h3>Government Advisory & Threat Prevention</h3>
+                        <p>Our system uses AI to analyze patterns and predict potential threats, such as unusual crowd formations or deviations from normal activity, helping to prevent incidents like terrorist attacks. This data is shared in real-time with government authorities.</p>
+                        <div class="placeholder-tech">
+                            <strong>[AI-Powered Anomaly Detection Active]</strong>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        <% } %>
+    <% } %>
+</div>
+
+<%- include('partials/footer') %>
