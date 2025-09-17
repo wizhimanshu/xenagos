@@ -52,4 +52,4 @@ app.use(indexRoutes);
 // Start Server
 app.listen(PORT, () => {
     console.log(`🚀 Server is running on http://localhost:${PORT}`);
-});
+});// Test change from terminal
