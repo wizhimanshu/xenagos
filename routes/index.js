@@ -168,8 +168,8 @@ router.post('/search', isAuth, async (req, res) => {
             apiImages: pexelsResult.slice(3, 7).map(p => p.src.large),
             nearbyHotels: hotelResult,
             routesInfo: `Accessible by road, rail, and air. Check local travel providers for specific routes to ${locationResult.properties.city || locationResult.properties.name}.`,
-            bookingLink: "[https://www.redbus.in/](https://www.redbus.in/)",
-            flightLink: "[https://www.makemytrip.com/flights/](https://www.makemytrip.com/flights/)",
+            bookingLink: "https://www.redbus.in/](https://www.redbus.in/)",
+            flightLink: "https://www.makemytrip.com/flights/](https://www.makemytrip.com/flights/)",
             videoSearchLink: `https://www.youtube.com/results?search_query=travel+guide+${encodeURIComponent(locationName)}`
         };
         res.render('index', { 
