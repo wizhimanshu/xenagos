@@ -3,48 +3,100 @@
 <div class="container safety-hub-page">
 
     <div class="page-header card">
-        <h1>Safety & Security Hub 🛡️</h1>
+        <h1>Safety & Security Hub for <%= locationName %> 🛡️</h1>
         <p>Your central resource for staying safe during your travels.</p>
     </div>
 
     <div class="safety-hub-grid">
+        <!-- NEW: NCRB Compliant Crime Statistics Card -->
+        <div class="card crime-card">
+            <h3>📊 Crime Statistics Overview</h3>
+            <% if (crimeStats) { %>
+                <p>
+                    <strong>Safety Risk:</strong> 
+                    <span class="safety-level-<%= crimeStats.safetyLevel.toLowerCase() %>"><%= crimeStats.safetyLevel %></span>
+                </p>
+                <p><strong>Advisory:</strong> <%= crimeStats.advisory %></p>
+                <p class="ncrb-source">
+                    <em>
+                        Based on the <%= crimeStats.reportYear %> National Crime Records Bureau report (Rate: <%= crimeStats.crimeRate %>/lakh). This is a statistical overview, not real-time data. 
+                        <a href="<%= crimeStats.source %>" target="_blank" rel="noopener noreferrer">Visit official site</a>.
+                    </em>
+                </p>
+            <% } else { %>
+                <p>Official crime statistics for this specific region are not available in our summary. Please exercise general caution.</p>
+            <% } %>
+        </div>
+
+        <!-- UPDATED: Now titled for clarity -->
+        <div class="card news-card">
+            <h3>📰 Recent Safety-Related News</h3>
+            <% if (news && news.length > 0) { %>
+                <ul class="news-list">
+                    <% news.forEach(article => { %>
+                        <li class="news-item">
+                            <a href="<%= article.url %>" target="_blank" rel="noopener noreferrer">
+                                <strong><%= article.title %></strong>
+                            </a>
+                            <p><%= article.description %></p>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %>
+                <p>No recent safety-related news could be fetched for this location.</p>
+            <% } %>
+        </div>
+        
         <div class="card climate-card">
-            <h3>🌡️ Live Climate Status (<%= locationName %>)</h3>
+            <h3>🌡️ Live Climate Status</h3>
             <% if (weather) { %>
                 <div class="weather-info">
-                    <img src="http://openweathermap.org/img/wn/<%= weather.weather[0].icon %>@2x.png" alt="Weather icon">
+                    <svg width="100" height="100" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.1));">
+                        <g>
+                            <path d="M41.5 44.5H15.5C9.15 44.5 4 39.35 4 33C4 26.65 9.15 21.5 15.5 21.5C16.5167 15.1833 21.6 10.5 27.5 10.5C33.7 10.5 38.5 15.6 38.5 21.5" stroke="#94A3B8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M49.5 22.5C54.45 22.5 58.5 26.55 58.5 31.5C58.5 36.45 54.45 40.5 49.5 40.5H41.5" stroke="#94A3B8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M49.5 14.5C51.9853 14.5 54.3729 15.4746 56.123 17.2247C57.8732 18.9749 58.8478 21.3625 58.8478 23.8478C58.8478 25.0294 58.6215 26.1913 58.18 27.26" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M49.5 3.15234V7.15234" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M40.0898 6.94238L42.9198 9.77238" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M58.9102 6.94238L56.0802 9.77238" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                    </svg>
                     <div class="weather-details">
                         <span class="temp"><%= Math.round(weather.main.temp) %>°C</span>
                         <span class="desc"><%= weather.weather[0].description %></span>
                     </div>
                 </div>
             <% } else { %>
-                <p>Live weather data is currently unavailable for this location.</p>
+                <p>Live weather data is currently unavailable.</p>
             <% } %>
         </div>
-
-        <div class="card crime-card">
-            <h3>📊 Regional Crime Advisory</h3>
-            <p><strong>Current Status:</strong> Low to Moderate</p>
-            <p>Always exercise caution. Avoid unlit areas at night and be mindful of your belongings in tourist spots and public transport.</p>
-        </div>
-
+        
         <div class="card emergency-card">
             <h3>🚨 Emergency Rescue</h3>
             <p>In a critical situation? Press the button below to immediately and silently notify authorities with your live location.</p>
             <button class="btn rescue-btn">Send Rescue Alert</button>
         </div>
 
+        <div class="card rules-card">
+            <h3>📜 General Tourist Regulations</h3>
+            <ul class="rules-list">
+                <li><strong>Visa & Passport:</strong> Always carry a copy of your passport and visa.</li>
+                <li><strong>Restricted Areas:</strong> Some regions require special permits (PAP/RAP). Verify before travelling.</li>
+                <li><strong>Cultural Respect:</strong> Dress modestly, particularly when visiting religious sites.</li>
+                <li><strong>Photography:</strong> Always ask for permission before photographing people or sensitive locations.</li>
+            </ul>
+        </div>
+
         <div class="card help-card">
             <h3>🤝 Nearby Help & Helplines</h3>
             <ul class="helplines-list">
-                <li><strong>National Emergency Number:</strong> 112</li>
+                <li><strong>National Emergency:</strong> 112</li>
                 <li><strong>Police:</strong> 100</li>
                 <li><strong>Tourist Helpline:</strong> 1363</li>
             </ul>
             <div class="button-group">
-                 <a href="https://www.google.com/maps/search/?api=1&query=Police+Stations+near+<%= encodeURIComponent(locationName) %>" target="_blank" class="btn btn-primary">Find Police Stations</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Hospitals+near+<%= encodeURIComponent(locationName) %>" target="_blank" class="btn btn-secondary">Find Hospitals</a>
+                 <a href="[https://www.google.com/maps/search/?api=1&query=Police+Stations+near](https://www.google.com/maps/search/?api=1&query=Police+Stations+near)+<%= encodeURIComponent(locationName) %>" target="_blank" class="btn btn-primary">Find Police Stations</a>
+                <a href="[https://www.google.com/maps/search/?api=1&query=Hospitals+near](https://www.google.com/maps/search/?api=1&query=Hospitals+near)+<%= encodeURIComponent(locationName) %>" target="_blank" class="btn btn-secondary">Find Hospitals</a>
             </div>
         </div>
     </div>
