@@ -1,0 +1,45 @@
+<%- include('partials/header') %>
+
+<div class="container local-guide-page" id="local-guide-page">
+
+    <div class="page-header card">
+        <h1>Local Guide for <span id="location-name"><%= locationName %></span> 🗺️</h1>
+        <p>Discover the best spots around you, automatically detected from your location.</p>
+        <p id="location-status" class="loading-message">Fetching your current location...</p>
+    </div>
+
+    <div class="card">
+        <div class="tabs-nav">
+            <button class="tab-link active" data-category="tourism.attraction" data-target="#tourist-spots">Tourist Spots</button>
+            <button class="tab-link" data-category="commercial.souvenir" data-target="#souvenir-shops">Souvenir Shops</button>
+            <button class="tab-link" data-category="catering.restaurant" data-target="#local-cuisine">Local Cuisine</button>
+            <button class="tab-link" data-category="entertainment.culture,entertainment.museum" data-target="#culture-events">Culture & Events</button>
+        </div>
+
+        <div class="tabs-content">
+            <div id="tourist-spots" class="tab-pane active">
+                <div class="places-grid">
+                    <p class="loading-message">Finding nearby attractions...</p>
+                </div>
+            </div>
+            <div id="souvenir-shops" class="tab-pane">
+                 <div class="places-grid">
+                    <p class="loading-message">Searching for souvenir shops...</p>
+                </div>
+            </div>
+            <div id="local-cuisine" class="tab-pane">
+                 <div class="places-grid">
+                    <p class="loading-message">Looking for the best local food...</p>
+                </div>
+            </div>
+            <div id="culture-events" class="tab-pane">
+                 <div class="places-grid">
+                    <p class="loading-message">Discovering cultural hubs...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<%- include('partials/footer') %>

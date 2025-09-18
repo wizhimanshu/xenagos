@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- NEW: Mobile Navigation Toggle ---
+    const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+
+    if (mobileNavToggle && navLinks) {
+        mobileNavToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('is-open');
+        });
+    }
+
+
     // --- Header Scroll Effect ---
     const header = document.querySelector('header');
     if (header) {
@@ -180,6 +191,66 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
+    // FINAL FIX: This script only runs if the server has provided location coordinates.
+    const localGuideContainer = document.getElementById('local-guide-container');
+    if (localGuideContainer && localGuideContainer.dataset.coords) {
+        const placesList = document.getElementById('places-list');
+        const statusDiv = document.getElementById('location-status');
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const currentCoords = JSON.parse(localGuideContainer.dataset.coords);
+        let activeCategory = 'tourism.attraction'; // Default active tab
+
+        const fetchAndDisplayPlaces = async () => {
+            statusDiv.textContent = 'Searching for nearby spots...';
+            placesList.innerHTML = '<p class="loading-message">Loading...</p>';
+            
+            const [lat, lon] = currentCoords;
+            
+            try {
+                const response = await fetch(`/api/nearby-places?lat=${lat}&lon=${lon}&categories=${activeCategory}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const places = await response.json();
+                
+                statusDiv.textContent = `Displaying results for your selected area.`;
+
+                placesList.innerHTML = '';
+                if (places.length > 0) {
+                    places.forEach(place => {
+                        const placeCard = document.createElement('div');
+                        placeCard.className = 'place-card';
+                        placeCard.innerHTML = `
+                            <div class="place-info">
+                                <strong>${place.name}</strong>
+                                <p>${place.address}</p>
+                            </div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.address)}" target="_blank" class="btn btn-outline">View on Map</a>
+                        `;
+                        placesList.appendChild(placeCard);
+                    });
+                } else {
+                    placesList.innerHTML = `<p class="no-places-message">No spots found in this category near you.</p>`;
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                placesList.innerHTML = `<p class="error-message">Could not fetch places. Please try again later.</p>`;
+                statusDiv.textContent = 'Failed to fetch places.';
+            }
+        };
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                tabLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                activeCategory = link.dataset.category;
+                fetchAndDisplayPlaces();
+            });
+        });
+        
+        // Initial fetch for the default active tab on page load
+        fetchAndDisplayPlaces();
+    }
+
 
     // --- Submit Discovery Form ---
     const discoveryForm = document.getElementById('discovery-form');
@@ -191,3 +262,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+

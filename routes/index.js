@@ -7,7 +7,8 @@ const ncrbData = require('../ncrb-data'); // Import NCRB data
 const PEXELS_API_KEY = 'ytGOWGmx87hiC3QWpBu91HyOI7UyecnjnSjnycz3DmLRytbQcsbCKOp9';
 const GEOAPIFY_API_KEY = '74396f21c0f146c4b044cb5b6533a463';
 const OPENWEATHER_API_KEY = 'c3afce02ec5a996499ed9573221f677e';
-const NEWS_API_KEY = '90bdef5da1bd49159bbbf4b4d704ffe6';
+const NEWS_API_KEY = '90bdef5da1bd49159bbbf4b4d704ffe6'; // This will no longer be used but is kept for reference.
+const GNEWS_API_KEY = '350459b43de9c67c5f2dff006b53221f'; // <-- IMPORTANT: Add your new GNews API key here.
 
 // --- A hardcoded backup array for the Underrated Places section ---
 const backupUnderratedPlaces = [
@@ -85,24 +86,57 @@ const fetchNearbyHotels = async (lat, lon) => {
     }
 };
 
-const fetchSafetyNews = async (location) => {
-    if (!NEWS_API_KEY || NEWS_API_KEY === 'PASTE_YOUR_NEWS_API_KEY_HERE') {
-        console.error("NEWS API KEY is missing! Please add it to routes/index.js");
+const fetchNearbyPlaces = async (lat, lon, categories) => {
+    if (!GEOAPIFY_API_KEY || GEOAPIFY_API_KEY === 'PASTE_YOUR_GEOAPIFY_API_KEY_HERE') {
+        console.error("GEOAPIFY API KEY is missing!");
         return [];
     }
     try {
-        const query = `(crime OR safety OR tourist advisory) AND "${location}" India`;
-        const response = await fetch(`https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&sortBy=publishedAt&pageSize=5&apiKey=${NEWS_API_KEY}`);
-        if (!response.ok) throw new Error(`NewsAPI error: ${response.statusText}`);
+        const response = await fetch(`https://api.geoapify.com/v2/places?categories=${categories}&filter=circle:${lon},${lat},10000&bias=proximity:${lon},${lat}&limit=20&apiKey=${GEOAPIFY_API_KEY}`);
+        if (!response.ok) {
+            console.error('Geoapify API URL that failed:', response.url);
+            throw new Error(`Geoapify Places API error: ${response.status}`);
+        }
         const data = await response.json();
-        return data.articles.filter(article => article.title && article.description);
-    } catch (error) {
-        console.error(`Failed to fetch news for "${location}":`, error);
+        return data.features.map(place => ({
+            name: place.properties.name || place.properties.address_line1,
+            address: place.properties.formatted,
+            lat: place.properties.lat,
+            lon: place.properties.lon
+        }));
+    } catch (e) {
+        console.error("Geoapify nearby places fetch failed:", e);
         return [];
     }
 };
 
-// Helper function to get NCRB-compliant data
+
+const fetchSafetyNews = async (location) => {
+    // NEW IMPLEMENTATION USING GNEWS
+    if (!GNEWS_API_KEY || GNEWS_API_KEY === 'YOUR_GNEWS_API_KEY') {
+        console.error("GNEWS API KEY is missing! Please get a free key from gnews.io and add it to routes/index.js");
+        return [];
+    }
+    try {
+        // Use a simpler, more effective query with just the primary location name.
+        const locationName = location.split(',')[0];
+        const query = `"${locationName}" safety OR tourist OR crime`;
+        
+        const response = await fetch(`https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&max=5&apikey=${GNEWS_API_KEY}`);
+        
+        if (!response.ok) throw new Error(`GNews API error: ${response.statusText}`);
+        
+        const data = await response.json();
+        
+        // GNews API returns articles in the 'articles' property.
+        return data.articles.filter(article => article.title && article.description);
+        
+    } catch (error) {
+        console.error(`Failed to fetch news for "${location}" using GNews:`, error);
+        return [];
+    }
+};
+
 const getNCRBData = (location) => {
     const loc = location.toLowerCase();
     for (const key in ncrbData) {
@@ -110,7 +144,7 @@ const getNCRBData = (location) => {
             return ncrbData[key];
         }
     }
-    return ncrbData.default; // Return national average if no specific match
+    return ncrbData.default;
 };
 
 
@@ -126,19 +160,13 @@ router.get('/api/underrated-places', async (req, res) => {
     try {
         const imagePromises = mockData.underratedPlaces.map(place => fetchPexelsImages(place.name, 1));
         const imageResults = await Promise.all(imagePromises);
-
         const allSucceeded = imageResults.every(result => result.length > 0);
-        if (!allSucceeded) {
-            throw new Error("One or more Pexels API calls failed.");
-        }
-
+        if (!allSucceeded) throw new Error("One or more Pexels API calls failed.");
         const underratedPlacesWithImages = mockData.underratedPlaces.map((place, index) => ({
             ...place,
             image: imageResults[index][0].src.large
         }));
-
         res.json(underratedPlacesWithImages);
-
     } catch (error) {
         console.error("Error fetching live underrated places, SERVING BACKUP DATA:", error.message);
         res.json(backupUnderratedPlaces); 
@@ -149,17 +177,24 @@ router.post('/search', isAuth, async (req, res) => {
     const locationName = req.body.location;
     if (!locationName) { return res.redirect('/'); }
     
-    req.session.lastSearchedLocation = locationName;
-
     try {
         const locationResult = await fetchLocationData(locationName);
         if (!locationResult) { throw new Error('Location not found.'); }
+        
+        // Storing the searched location in the user's session
+        req.session.lastSearch = {
+            name: locationResult.properties.formatted,
+            coords: [locationResult.properties.lat, locationResult.properties.lon]
+        };
+        
         const lat = locationResult.properties.lat;
         const lon = locationResult.properties.lon;
+
         const [pexelsResult, hotelResult] = await Promise.all([
             fetchPexelsImages(locationName, 7),
             fetchNearbyHotels(lat, lon)
         ]);
+
         const finalData = {
             name: locationResult.properties.formatted,
             coords: [lat, lon],
@@ -172,6 +207,7 @@ router.post('/search', isAuth, async (req, res) => {
             flightLink: "https://www.makemytrip.com/flights/",
             videoSearchLink: `https://www.youtube.com/results?search_query=travel+guide+${encodeURIComponent(locationName)}`
         };
+
         res.render('index', { 
             locationData: finalData, 
             underratedPlaces: mockData.underratedPlaces
@@ -185,11 +221,50 @@ router.post('/search', isAuth, async (req, res) => {
     }
 });
 
+
 router.get('/journey', isAuth, (req, res) => { res.render('journey'); });
+
+// FINAL FIX: This route now correctly checks the session for a searched location.
+router.get('/local-guide', isAuth, (req, res) => {
+    const lastSearch = req.session.lastSearch;
+    
+    // If a location has been searched, pass its data to the page.
+    if (lastSearch && lastSearch.coords) {
+        res.render('local-guide', { 
+            hasLocation: true,
+            locationName: lastSearch.name.split(',')[0],
+            locationCoords: lastSearch.coords 
+        });
+    } else {
+        // Otherwise, render the page in its "prompt to search" state.
+        res.render('local-guide', {
+            hasLocation: false,
+            locationName: null,
+            locationCoords: null
+        });
+    }
+});
+
+
+// API ENDPOINT for fetching nearby places
+router.get('/api/nearby-places', isAuth, async (req, res) => {
+    const { lat, lon, categories } = req.query;
+    if (!lat || !lon || !categories) {
+        return res.status(400).json({ error: 'Latitude, longitude, and categories are required.' });
+    }
+    try {
+        const places = await fetchNearbyPlaces(lat, lon, categories);
+        res.json(places);
+    } catch (error) {
+        console.error('API error fetching nearby places:', error);
+        res.status(500).json({ error: 'Failed to fetch nearby places.' });
+    }
+});
 
 // This route now fetches weather, news, AND NCRB data
 router.get('/safety-hub', isAuth, async (req, res) => {
-    const location = req.session.lastSearchedLocation || 'Delhi';
+    // Safety Hub also uses the searched location from the session.
+    const location = req.session.lastSearch ? req.session.lastSearch.name : 'Delhi';
     let weatherData = null;
     let newsData = [];
     let crimeStats = null;
@@ -222,9 +297,10 @@ router.get('/safety-hub', isAuth, async (req, res) => {
         weather: weatherData, 
         locationName: location,
         news: newsData,
-        crimeStats: crimeStats // Pass crime stats to the view
+        crimeStats: crimeStats
     });
 });
 
 module.exports = router;
+
 

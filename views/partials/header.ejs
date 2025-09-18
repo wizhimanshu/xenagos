@@ -15,21 +15,30 @@
                 <span class="logo-text">Xenagos</span>
             </a>
             
-            <% if (isLoggedIn) { %>
-                <div class="nav-user">
-                    <span>Welcome, <%= user.username %></span>
-                    <button class="btn btn-outline" id="connect-wallet-btn">Connect Wallet</button>
-                    <a href="/journey" class="btn-nav-link">My Journey So Far</a> 
-                    <a href="/safety-hub" class="btn-nav-link">Safety Hub</a>
-                    <a href="/logout" class="btn btn-secondary">Logout</a>
-                </div>
-            <% } else { %>
-                <div class="nav-guest">
-                    <a href="/login" class="btn btn-outline">Login</a>
-                    <a href="/signup" class="btn btn-secondary">Sign Up</a>
-                </div>
-            <% } %>
+            <div class="nav-links" id="nav-links">
+                <% if (isLoggedIn) { %>
+                    <div class="nav-user">
+                        <span>Welcome, <%= user.username %></span>
+                        <button class="btn btn-outline" id="connect-wallet-btn">Connect Wallet</button>
+                        <a href="/journey" class="btn-nav-link">My Journey</a> 
+                        <a href="/safety-hub" class="btn-nav-link">Safety Hub</a>
+                        <a href="/local-guide" class="btn-nav-link">Local Guide</a>
+                        <a href="/logout" class="btn btn-secondary">Logout</a>
+                    </div>
+                <% } else { %>
+                    <div class="nav-guest">
+                        <a href="/login" class="btn btn-outline">Login</a>
+                        <a href="/signup" class="btn btn-secondary">Sign Up</a>
+                    </div>
+                <% } %>
+            </div>
             
+            <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Open navigation menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+                </svg>
+            </button>
         </nav>
     </header>
     <main>
+
