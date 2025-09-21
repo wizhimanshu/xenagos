@@ -1,0 +1,32 @@
+<%- include('partials/header') %>
+<div class="container local-guide-page">
+    <div class="page-header card">
+        <h1>Local Guide 🗺️</h1>
+        <p>Explore like a local! Discover the best spots around your selected destination.</p>
+        <% if (!hasLocation) { %>
+            <p class="status-message">Please <a href="/">search for a destination</a> first to activate the Local Guide.</p>
+        <% } %>
+    </div>
+
+    <% if (hasLocation) { %>
+        <div class="card" id="local-guide-container" data-coords="<%= JSON.stringify(locationCoords) %>">
+            <div class="tabs-nav">
+                <button class="tab-link active" data-category="tourism.attraction">Tourist Spots</button>
+                <button class="tab-link" data-category="commercial.food_and_drink,catering.restaurant">Local Cuisine</button>
+                <button class="tab-link" data-category="commercial.shopping_mall,commercial.marketplace">Markets & Shops</button>
+                <button class="tab-link" data-category="amenity.pharmacy,amenity.hospital">Medical</button>
+            </div>
+            <div id="places-list" class="places-list-container">
+                <p class="loading-message">Finding nearby attractions...</p>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Book a Ride</h3>
+            <p>Get around town with ease. We'll use your live location to set the pickup point.</p>
+            <div class="button-group" id="ride-booking-group">
+                <p class="loading-message">Fetching your location...</p>
+            </div>
+        </div>
+    <% } %>
+</div>
+<%- include('partials/footer') %>

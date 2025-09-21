@@ -1,0 +1,26 @@
+<%- include('partials/header') %>
+<div class="container">
+    <div class="page-header card">
+        <h1>My Details</h1>
+        <p>Your personal and social information.</p>
+    </div>
+
+    <div class="details-grid">
+        <div class="card">
+            <h3>Account Information</h3>
+            <p><strong>Username:</strong> <%= user.username %></p>
+            <p><strong>Mobile:</strong> <%= user.mobile %></p>
+        </div>
+        <div class="card">
+            <h3>Update Social Links</h3>
+            <form action="/update-details" method="POST">
+                <label>Twitter Profile URL</label>
+                <input type="text" name="twitter" value="<%= user.socials.twitter %>" placeholder="https://twitter.com/username">
+                <label>LinkedIn Profile URL</label>
+                <input type="text" name="linkedin" value="<%= user.socials.linkedin %>" placeholder="https://linkedin.com/in/username">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('partials/footer') %>

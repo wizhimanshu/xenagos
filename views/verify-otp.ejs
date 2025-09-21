@@ -1,0 +1,16 @@
+<%- include('partials/header') %>
+<div class="auth-container">
+    <div class="auth-form-wrapper card">
+        <h2>Two-Step Verification</h2>
+        <p>For your security, we've sent a one-time password (OTP) to your registered mobile number ending in ****<%= mobileLast4 %>.</p>
+        <div class="otp-display">DEMO OTP: <strong><%= fakeOtp %></strong></div>
+        <% if (locals.error) { %>
+            <div class="error-message"><%= error %></div>
+        <% } %>
+        <form action="/verify-otp?m=<%= mobileLast4 %>" method="POST">
+            <input type="text" name="otp" placeholder="Enter 6-digit OTP" required maxlength="6">
+            <button type="submit" class="btn btn-primary">Verify & Login</button>
+        </form>
+    </div>
+</div>
+<%- include('partials/footer') %>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Tourist Safety System</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">
+                <span class="logo-text">Xenagos</span>
+            </a>
+            
+            <div class="nav-links" id="nav-links">
+                <% if (isLoggedIn) { %>
+                    <div class="nav-user">
+                        <!-- <a href="" class="btn btn-sos rescue-btn">SOS</a> -->
+                        <a href="#" class="btn-nav-link" id="navbar-sos-link">SOS</a>
+                        <a href="/safety-hub" class="btn-nav-link" >Safety Hub</a>
+                        <a href="/local-guide" class="btn-nav-link">Local Guide</a>
+                        <a href="/journey" class="btn-nav-link">My Journey</a>
+                        
+                        <div class="user-dropdown">
+                            <button class="user-menu-btn">
+                                Welcome, <%= user.username %> ▾
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="/my-details">My Details</a>
+                                <button id="connect-wallet-btn" class="btn btn-outline">Connect Wallet</button>
+                                <a href="/logout">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="nav-guest">
+                        <a href="/login" class="btn btn-outline">Login</a>
+                        <a href="/signup" class="btn btn-secondary">Sign Up</a>
+                    </div>
+                <% } %>
+            </div>
+            
+            <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Open navigation menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+                </svg>
+            </button>
+            
+        </nav>
+    </header>
+    <main>

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1758040282549",
+    "username": "himanshu",
+    "password": "$2b$10$OovNmd4ySkG98HHMRLQ4DuHhGTWVl5gBstbyhRCILqX/Pgwv42PIm"
+  },
+  {
+    "id": "1758090427601",
+    "username": "bhoomi",
+    "password": "$2b$10$xRPA61.MeG7hUpG8FC6AIuf19tz3wWa7Iy1MFfVKmVOocVvyIxmpe"
+  },
+  {
+    "id": "1758096608454",
+    "username": "Shashank",
+    "password": "$2b$10$Qs8wTIZKnYmveWUarTHyxOdeTh0WmF3frSFyq5b7LadehRvtIrTGO"
+  },
+  {
+    "id": "1758430729907",
+    "username": "himahsu1",
+    "password": "$2b$10$lKRYpAZ2tUorzA7LMQ81V.gZ0vBHu0CJr3G/DFHhHbv5//wANqAsO",
+    "mobile": "9302432301",
+    "socials": {
+      "twitter": "",
+      "linkedin": ""
+    }
+  },
+  {
+    "id": "1758430781801",
+    "username": "himanshu11",
+    "password": "$2b$10$FdEbzl2nZl0JoaL1FeeL..HeIjstQGKAwol88j52vVjWSgkan9Nc6",
+    "mobile": "9302432301",
+    "socials": {
+      "twitter": "",
+      "linkedin": ""
+    }
+  }
+]
