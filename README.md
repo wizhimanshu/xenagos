@@ -79,4 +79,4 @@ Track Your Journey: If you like the place, click "Add to My Tracker".
 View Your Travels: Navigate to the "My Journey So Far" page to see a gallery of all the places you've tracked.
 
 People and collaborations:
-This project was created by wizhimanshu with collaoration of antiperfect & ace-HiteshSingh
+This project was created by wizhimanshu with collaoration of antiperfect & ace-HiteshSingh.
