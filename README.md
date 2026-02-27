@@ -1,6 +1,6 @@
 Xenagos is a dynamic and intuitive web application designed to be a smart and safe companion for modern tourists. It allows users to search for destinations, view stunning photos, explore locations on an interactive map, discover nearby hotels, and keep a personal log of their travels.
 
-✨ Features
+✨ Features:
 🔐 Secure User Authentication: Users can sign up and log in to a personal account, with password hashing for security.
 
 🔍 Powerful Destination Search: Search for any city or landmark worldwide to get detailed information.
@@ -19,14 +19,14 @@ Xenagos is a dynamic and intuitive web application designed to be a smart and sa
 
 🚀 Responsive Design: A clean and modern user interface that works seamlessly on both desktop and mobile devices.
 
-🛠️ Tech Stack
+🛠️ Tech Stack:
 Backend: Node.js, Express.js
 
 Frontend: EJS (Embedded JavaScript), CSS3, Vanilla JavaScript
 
 Authentication: express-session for session management and bcrypt for password hashing.
 
-Database: A simple users.json file for persistent user storage.
+Database: postgeSQL database and a simple users.json file for persistent user credentials storage in case database connection failed to connect by any circumstance.
 
 APIs:
 
@@ -43,7 +43,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 Prerequisites
 You need to have Node.js and npm installed on your computer.
 
-Installation & Setup
+Installation & Setup:
 Clone the repository:
 ```
 git clone [https://github.com/your-username/xenagos.git](https://github.com/your-username/xenagos.git)
@@ -67,7 +67,7 @@ node server.js
 ```
 Open your browser and navigate to http://localhost:3000.
 
-Usage
+Usage:
 Sign Up: Create a new account to get started.
 
 Search: On the home page, enter a city, landmark, or destination you want to explore.
@@ -78,4 +78,5 @@ Track Your Journey: If you like the place, click "Add to My Tracker".
 
 View Your Travels: Navigate to the "My Journey So Far" page to see a gallery of all the places you've tracked.
 
-This project was created by wizhimanshu, antiperfect & ace-HiteshSingh
+People and collaborations:
+This project was created by wizhimanshu with collaoration of antiperfect & ace-HiteshSingh.
