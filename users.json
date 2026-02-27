@@ -33,5 +33,25 @@
       "twitter": "",
       "linkedin": ""
     }
+  },
+  {
+    "id": "1763300830586",
+    "username": "lenevo",
+    "password": "$2b$10$qIWRmX5yC/pxFLj.8TYMquP56mDXopFgb0yiJYTfiuE2na6u48gj.",
+    "mobile": "1234567890",
+    "socials": {
+      "twitter": "",
+      "linkedin": ""
+    }
+  },
+  {
+    "id": "1764425632575",
+    "username": "sanvi",
+    "password": "$2b$10$Mfm5p8JoIWH2syV9OOkWVuWfeU9pBKlwEf2SMpPy2LzLuExaunZT.",
+    "mobile": "1234567890",
+    "socials": {
+      "twitter": "",
+      "linkedin": ""
+    }
   }
 ]

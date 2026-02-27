@@ -1,3 +1,4 @@
+require('dotenv').config();
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- NEW: Mobile Nav Toggle & User Dropdown ---
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const { latitude, longitude } = position.coords;
                 try {
                     // IMPORTANT: In a real production app, this API key should NOT be exposed on the client-side.
-                    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=c3afce02ec5a996499ed9573221f677e&units=metric`);
+                    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${OpenWeatherAPI_KEY}`);
                     if (!response.ok) throw new Error('Weather data unavailable');
                     const weather = await response.json();
 
