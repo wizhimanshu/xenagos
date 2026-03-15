@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 let mockData = require('../mock-data');
 const ncrbData = require('../ncrb-data');
+require('dotenv').config();
 
 // --- Your API Keys ---
-const PEXELS_API_KEY = 'ytGOWGmx87hiC3QWpBu91HyOI7UyecnjnSjnycz3DmLRytbQcsbCKOp9';
-const GEOAPIFY_API_KEY = '74396f21c0f146c4b044cb5b6533a463';
-const OPENWEATHER_API_KEY = 'c3afce02ec5a996499ed9573221f677e';
-const GNEWS_API_KEY = '350459b43de9c67c5f2dff006b53221f';
+const PEXELS_API_KEY = '$PEXELS_API_KEYY';
+const GEOAPIFY_API_KEY = '$GEOAPIFY_API_KEYY';
+const OPENWEATHER_API_KEY = '$OPENWEATHER_API_KEYY';
+const GNEWS_API_KEY = '$GNEWS_API_KEYY';
 
 // --- A hardcoded backup array for the Underrated Places section ---
 const backupUnderratedPlaces = [
