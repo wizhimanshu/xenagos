@@ -53,5 +53,15 @@
       "twitter": "",
       "linkedin": ""
     }
+  },
+  {
+    "id": "1773602140108",
+    "username": "himanshu123",
+    "password": "$2b$10$ugf07kI/7nk0wUeh5DySV.EacQCiI4RkpM2.EyiEgZlHPspRoxvWK",
+    "mobile": "1234567890",
+    "socials": {
+      "twitter": "",
+      "linkedin": ""
+    }
   }
 ]

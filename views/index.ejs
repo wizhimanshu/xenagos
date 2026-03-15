@@ -30,9 +30,10 @@
             <div class="left-column">
                 <div class="map-container card">
                     <h3><%= locationData.name %> on Map</h3>
-                    <a href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(locationData.name) %>" target="_blank" title="Click to open in Google Maps">
-                        <div id="map" data-coords="<%= JSON.stringify(locationData.coords) %>"></div>
-                    </a>
+                    <div id="map" data-coords="<%= JSON.stringify(locationData.coords) %>"></div>
+                    <div class="button-group">
+                        <a href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(locationData.name) %>" target="_blank" class="btn btn-outline">Open in Google Maps</a>
+                    </div>
                     <button class="btn btn-secondary add-tracker-btn" data-location-name="<%= locationData.name %>" data-cover-image="<%= locationData.coverImage %>" data-coords="<%= JSON.stringify(locationData.coords) %>">
                         Add to My Tracker
                     </button>

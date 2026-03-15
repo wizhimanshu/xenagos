@@ -5,10 +5,11 @@ const ncrbData = require('../ncrb-data');
 require('dotenv').config();
 
 // --- Your API Keys ---
-const PEXELS_API_KEY = '$PEXELS_API_KEYY';
-const GEOAPIFY_API_KEY = '$GEOAPIFY_API_KEYY';
-const OPENWEATHER_API_KEY = '$OPENWEATHER_API_KEYY';
-const GNEWS_API_KEY = '$GNEWS_API_KEYY';
+const PEXELS_API_KEY = process.env.PEXELS_API_KEYY;
+const GEOAPIFY_API_KEY = process.env.GEOAPIFY_API_KEYY;
+const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEYY;
+const GNEWS_API_KEY = process.env.GNEWS_API_KEYY;
+
 
 // --- A hardcoded backup array for the Underrated Places section ---
 const backupUnderratedPlaces = [

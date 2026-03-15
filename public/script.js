@@ -1,4 +1,3 @@
-require('dotenv').config();
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- NEW: Mobile Nav Toggle & User Dropdown ---
@@ -190,6 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const map = L.map('map').setView(coords, 11);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
             L.marker(coords).addTo(map).bindPopup("Selected Location").openPopup();
+            // Ensure proper render after the card/grid layout settles.
+            setTimeout(() => map.invalidateSize(), 100);
         } catch (e) {
             console.error("Could not initialize map:", e);
         }
