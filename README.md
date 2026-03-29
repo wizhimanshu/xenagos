@@ -57,9 +57,9 @@ Add API Keys:
 This project requires API keys from Pexels and Geoapify. Open the routes/index.js file and replace the placeholder keys with your own:
 
 ```
-// In routes/index.js
-const PEXELS_API_KEY = 'YOUR_PEXELS_API_KEY';
-const GEOAPIFY_API_KEY = 'YOUR_GEOAPIFY_API_KEY';
+// Create your .env file and in that add your keys-
+PEXELS_API_KEY = 'YOUR_PEXELS_API_KEY';
+GEOAPIFY_API_KEY = 'YOUR_GEOAPIFY_API_KEY';
 ```
 Run the server:
 ```
