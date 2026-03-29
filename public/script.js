@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
             navigator.geolocation.getCurrentPosition(async position => {
                 const { latitude, longitude } = position.coords;
                 try {
-                    // IMPORTANT: In a real production app, this API key should NOT be exposed on the client-side.
-                    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${OpenWeatherAPI_KEY}`);
+                    // Fixed: Securely fetching from the backend proxy so API keys stay hidden.
+                    const response = await fetch(`/api/live-weather?lat=${latitude}&lon=${longitude}`);
                     if (!response.ok) throw new Error('Weather data unavailable');
                     const weather = await response.json();
 

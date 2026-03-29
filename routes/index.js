@@ -215,6 +215,25 @@ router.get('/api/nearby-places', isAuth, async (req, res) => {
     }
 });
 
+router.get('/api/live-weather', async (req, res) => {
+    const { lat, lon } = req.query;
+    if (!lat || !lon) return res.status(400).json({ error: 'Missing coordinates' });
+    
+    if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY === 'PASTE_YOUR_OPENWEATHER_API_KEY_HERE') {
+        return res.status(500).json({ error: 'API key missing' });
+    }
+    
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHER_API_KEY}&units=metric`);
+        if (!response.ok) throw new Error('Weather API error');
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error("Live weather proxy error:", error);
+        res.status(500).json({ error: 'Failed to fetch weather' });
+    }
+});
+
 router.get('/safety-hub', isAuth, async (req, res) => {
     const location = req.session.lastSearch ? req.session.lastSearch.name : 'Delhi';
     let weatherData = null;

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
@@ -31,7 +32,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'a-very-strong-secret-key-for-sih',
+    secret: process.env.SESSION_SECRET || 'fallback_secret_key',
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false, maxAge: 60 * 60 * 1000 }
